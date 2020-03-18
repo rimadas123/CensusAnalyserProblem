@@ -1,15 +1,16 @@
+import com.census_analyser.CSVStates;
 import com.census_analyser.StateCensusAnalyser;
 import com.census_analyser.StateCensusAnalyserException;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.nio.file.NoSuchFileException;
 
 public class StateCensusAnalyserTest {
 
     //Object creation
-    StateCensusAnalyser analyser=new StateCensusAnalyser();
+    StateCensusAnalyser analyser = new StateCensusAnalyser();
+    CSVStates csvStates = new CSVStates();
 
     @Test
     public void givenTheStatesCensusCSVFiles_CheckToEnsureTheNumber_OfRecordMatches() throws IOException, StateCensusAnalyserException {
@@ -55,5 +56,11 @@ public class StateCensusAnalyserTest {
         } catch (StateCensusAnalyserException e) {
             Assert.assertEquals(StateCensusAnalyserException.ExceptionType.WRONG_DELIMITER,e.exceptiontype);
         }
+    }
+
+    @Test
+    public void givenStatesCode_CheckToEnsureTheNumber_OfRecordMatches() {
+        int numberOfRecords = csvStates.readStateCodeFile("./src/test/resources/StateCode.csv");
+        Assert.assertEquals(37,numberOfRecords);
     }
 }
