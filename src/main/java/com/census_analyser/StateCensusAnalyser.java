@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 
 public class StateCensusAnalyser {
 
-    public int readCSVFile(String CSV_PATH) throws IOException,StateCensusAnalyserException {
+    public int readCSVFile(String CSV_PATH) throws StateCensusAnalyserException {
         int count = 0;
         String fileName = getFileExtension(CSV_PATH);
         if(!fileName.equals(".csv"))
@@ -28,7 +28,10 @@ public class StateCensusAnalyser {
                 System.out.println("DensityPerSqKm : "+records[3]);
                 System.out.println("==================");
             }
-        } catch (NoSuchFileException e) {
+        } catch (RuntimeException e){
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.WRONG_DELIMITER,"wrong delimiter used in file");
+        }
+        catch (NoSuchFileException e) {
             throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.FILE_NOT_FOUND,"File not found");
         }
         catch (IOException e){
