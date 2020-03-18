@@ -93,4 +93,14 @@ public class StateCensusAnalyserTest {
             Assert.assertEquals(StateCensusAnalyserException.ExceptionType.WRONG_DELIMITER,e.exceptiontype);
         }
     }
+
+    @Test
+    public void givenStateCode_WhenCorrectButCSVHeaderIncorrect_ReturnsACustomException() {
+        try{
+            int wrongHeader = csvStates.readStateCodeFile("./src/test/resources/WrongDelimiterStateCode.csv");
+            Assert.assertEquals(37,wrongHeader);
+        } catch (StateCensusAnalyserException e){
+            Assert.assertEquals(StateCensusAnalyserException.ExceptionType.WRONG_DELIMITER,e.exceptiontype);
+        }
+    }
 }
