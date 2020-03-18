@@ -6,12 +6,16 @@ import com.opencsv.CSVReaderBuilder;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 
 public class StateCensusAnalyser {
 
-    public int readCSVFile(String CSV_PATH) throws IOException {
+    public int readCSVFile(String CSV_PATH) throws IOException,StateCensusAnalyserException {
         int count = 0;
+        String fileName = getFileExtension(CSV_PATH);
+        if(!fileName.equals(".csv"))
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.NO_SUCH_FILE,"file does not exists");
         try(Reader reader = Files.newBufferedReader(Paths.get(CSV_PATH));
             CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
         ){
@@ -24,8 +28,25 @@ public class StateCensusAnalyser {
                 System.out.println("DensityPerSqKm : "+records[3]);
                 System.out.println("==================");
             }
+        } catch (NoSuchFileException e) {
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.FILE_NOT_FOUND,"File not found");
+        }
+        catch (IOException e){
+            e.printStackTrace();
         }
         return count;
+    }
+
+    public static String getFileExtension(String file){
+        String fileName = "";
+        try{
+            if(file != null){
+                fileName=file.substring(file.lastIndexOf("."));
+            }
+        } catch (Exception e){
+            fileName="";
+        }
+        return fileName;
     }
 
     public static void main(String[] args){
