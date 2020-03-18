@@ -6,10 +6,11 @@ import com.opencsv.CSVReaderBuilder;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 
 public class CSVStates {
-    public int readStateCodeFile(String CSV_PATH) {
+    public int readStateCodeFile(String CSV_PATH) throws StateCensusAnalyserException {
         int count = 0;
         try(Reader reader = Files.newBufferedReader(Paths.get(CSV_PATH));
             CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
@@ -23,7 +24,10 @@ public class CSVStates {
                 System.out.println("StateCode : "+records[3]);
                 System.out.println("==================");
             }
-        } catch (IOException e){
+        } catch (NoSuchFileException e){
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.FILE_NOT_FOUND,"file does not exists");
+        }
+        catch (IOException e){
             e.printStackTrace();
         }
         return count;
