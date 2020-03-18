@@ -18,13 +18,22 @@ public class StateCensusAnalyserTest {
     }
 
     @Test
-    public void givenTheStateCensus_CSVFile_IfIncorrectReturnsACustomException() throws IOException, StateCensusAnalyserException {
+    public void givenTheStateCensus_CSVFile_IfIncorrectReturnsACustomException() throws IOException {
         try {
             int fileName = analyser.readCSVFile("./src/test/resources/StateCensus.csv");
-            Assert.assertEquals("29", fileName);
+            Assert.assertEquals(29, fileName);
         } catch (StateCensusAnalyserException e){
             Assert.assertEquals(StateCensusAnalyserException.ExceptionType.FILE_NOT_FOUND,e.exceptiontype);
         }
     }
-    
+
+    @Test
+    public void givenTheStateCensus_CSVFileWhenCorrect_ButTypeIncorrect_ReturnsACustomException() throws IOException {
+        try {
+            int fileType = analyser.readCSVFile("./src/test/resources/StateCensusData.pdf");
+            Assert.assertEquals(29, fileType);
+        } catch (StateCensusAnalyserException e){
+            Assert.assertEquals(StateCensusAnalyserException.ExceptionType.NO_SUCH_FILE,e.exceptiontype);
+        }
+    }
 }
