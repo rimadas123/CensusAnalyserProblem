@@ -13,7 +13,7 @@ public class StateCensusAnalyserTest {
     CSVStates csvStates = new CSVStates();
 
     @Test
-    public void givenTheStatesCensusCSVFiles_CheckToEnsureTheNumber_OfRecordMatches() throws IOException, StateCensusAnalyserException {
+    public void givenTheStatesCensusCSVFiles_CheckToEnsureTheNumber_OfRecordMatches() throws StateCensusAnalyserException {
         int count = analyser.readCSVFile("./src/test/resources/StateCensusData.csv");
         Assert.assertEquals(29,count);
     }
@@ -59,8 +59,18 @@ public class StateCensusAnalyserTest {
     }
 
     @Test
-    public void givenStatesCode_CheckToEnsureTheNumber_OfRecordMatches() {
+    public void givenStatesCode_CheckToEnsureTheNumber_OfRecordMatches() throws StateCensusAnalyserException {
         int numberOfRecords = csvStates.readStateCodeFile("./src/test/resources/StateCode.csv");
         Assert.assertEquals(37,numberOfRecords);
+    }
+
+    @Test
+    public void givenStatesCode_fIncorrectReturnsACustomException() {
+        try {
+            int fileNotFound = csvStates.readStateCodeFile("./src/test/resources/State.csv");
+            Assert.assertEquals(37,fileNotFound);
+        } catch (StateCensusAnalyserException e){
+            Assert.assertEquals(StateCensusAnalyserException.ExceptionType.FILE_NOT_FOUND,e.exceptiontype);
+        }
     }
 }
