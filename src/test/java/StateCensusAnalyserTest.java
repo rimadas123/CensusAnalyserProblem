@@ -65,12 +65,22 @@ public class StateCensusAnalyserTest {
     }
 
     @Test
-    public void givenStatesCode_fIncorrectReturnsACustomException() {
+    public void givenStatesCode_IfIncorrectReturnsACustomException() {
         try {
             int fileNotFound = csvStates.readStateCodeFile("./src/test/resources/State.csv");
             Assert.assertEquals(37,fileNotFound);
         } catch (StateCensusAnalyserException e){
             Assert.assertEquals(StateCensusAnalyserException.ExceptionType.FILE_NOT_FOUND,e.exceptiontype);
+        }
+    }
+
+    @Test
+    public void givenStateCode_WhenCorrect_ButTypeIncorrect_ReturnsACustomException() {
+        try{
+            int noSuchFile = csvStates.readStateCodeFile("./src/test/resources/StateCode.xls");
+            Assert.assertEquals(37,noSuchFile);
+        } catch (StateCensusAnalyserException e){
+            Assert.assertEquals(StateCensusAnalyserException.ExceptionType.NO_SUCH_FILE,e.exceptiontype);
         }
     }
 }
