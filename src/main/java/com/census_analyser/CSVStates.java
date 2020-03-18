@@ -30,8 +30,9 @@ public class CSVStates {
             }
         } catch (NoSuchFileException e){
             throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.FILE_NOT_FOUND,"file does not exists");
-        }
-        catch (IOException e){
+        } catch (RuntimeException e){
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.WRONG_DELIMITER,"wrong delimiter has been added");
+        } catch (IOException e){
             e.printStackTrace();
         }
         return count;
