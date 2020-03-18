@@ -12,6 +12,10 @@ import java.nio.file.Paths;
 public class CSVStates {
     public int readStateCodeFile(String CSV_PATH) throws StateCensusAnalyserException {
         int count = 0;
+        String fileName = getFileExtension(CSV_PATH);
+        if(!fileName.equals(".csv")){
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.NO_SUCH_FILE,"wrong file type");
+        }
         try(Reader reader = Files.newBufferedReader(Paths.get(CSV_PATH));
             CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
         ){
@@ -31,6 +35,18 @@ public class CSVStates {
             e.printStackTrace();
         }
         return count;
+    }
+
+    private static String getFileExtension(String file){
+        String fileName = "";
+        try{
+            if(file != null){
+                fileName=file.substring(file.lastIndexOf("."));
+            }
+        } catch (Exception e){
+            fileName="";
+        }
+        return fileName;
     }
 
 }
