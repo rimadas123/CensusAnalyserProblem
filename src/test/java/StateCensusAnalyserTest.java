@@ -13,7 +13,7 @@ public class StateCensusAnalyserTest {
     CSVStates csvStates = new CSVStates();
 
     @Test
-    public void givenTheStatesCensusCSVFiles_CheckToEnsureTheNumber_OfRecordMatches() throws StateCensusAnalyserException {
+    public void givenTheStatesCensusCSVFiles_CheckToEnsureTheNumber_OfRecordMatches() throws StateCensusAnalyserException, IOException {
         int count = analyser.readCSVFile("./src/test/resources/StateCensusData.csv");
         Assert.assertEquals(29,count);
     }
@@ -39,7 +39,7 @@ public class StateCensusAnalyserTest {
     }
 
     @Test
-    public void givenTheStateCensus_CSVFile_WhenCorrectButDelimiterIncorrect_ReturnsACustomException() {
+    public void givenTheStateCensus_CSVFile_WhenCorrectButDelimiterIncorrect_ReturnsACustomException() throws IOException {
         try{
             int wrongDelimiter = analyser.readCSVFile("./src/test/resources/WrongDelimiterStateCensusData.csv");
             Assert.assertEquals(29,wrongDelimiter);
@@ -49,7 +49,7 @@ public class StateCensusAnalyserTest {
     }
 
     @Test
-    public void givenTheStateCensus_CSVFile_WhenCorrectButCSVHeaderIncorrect_ReturnsACustomException() {
+    public void givenTheStateCensus_CSVFile_WhenCorrectButCSVHeaderIncorrect_ReturnsACustomException() throws IOException {
         try{
             int wrongHeader = analyser.readCSVFile("./src/test/resources/WrongDelimiterStateCensusData.csv");
             Assert.assertEquals(29,wrongHeader);
