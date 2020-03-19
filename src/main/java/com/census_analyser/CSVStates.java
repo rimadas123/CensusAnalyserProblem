@@ -1,13 +1,14 @@
 package com.census_analyser;
 
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
+import java.util.Iterator;
 
 public class CSVStates {
     public int readStateCodeFile(String CSV_PATH) throws StateCensusAnalyserException {
@@ -17,16 +18,21 @@ public class CSVStates {
             throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.NO_SUCH_FILE,"wrong file type");
         }
         try(Reader reader = Files.newBufferedReader(Paths.get(CSV_PATH));
-            CSVReader csvReader = new CSVReaderBuilder(reader).withSkipLines(1).build();
         ){
-            String[] records;
-            while((records = csvReader.readNext()) !=null) {
+            CsvToBean<StateCodeData> csvToBean = new CsvToBeanBuilder<StateCodeData>(reader)
+                    .withType(StateCodeData.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .build();
+            Iterator<StateCodeData> censusDataIterator = csvToBean.iterator();
+
+            while (censusDataIterator.hasNext()){
                 count++;
-                System.out.println("Sr no : "+records[0]);
-                System.out.println("StateName : "+records[1]);
-                System.out.println("TIN : "+records[2]);
-                System.out.println("StateCode : "+records[3]);
-                System.out.println("==================");
+                StateCodeData csvData = censusDataIterator.next();
+                System.out.println("Sr no : " +csvData.SrNo);
+                System.out.println("State Name : "+csvData.StateName);
+                System.out.println("TIN : "+csvData.TIN);
+                System.out.println("State Code : "+csvData.StateCode);
+                System.out.println("===============");
             }
         } catch (NoSuchFileException e){
             throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.FILE_NOT_FOUND,"file does not exists");
