@@ -60,14 +60,14 @@ public class StateCensusAnalyserTest {
 
     @Test
     public void givenStatesCode_CheckToEnsureTheNumber_OfRecordMatches() throws StateCensusAnalyserException {
-        int numberOfRecords = csvStates.readStateCodeFile("./src/test/resources/StateCode.csv");
+        int numberOfRecords = analyser.readStateCodeFile("./src/test/resources/StateCode.csv");
         Assert.assertEquals(37,numberOfRecords);
     }
 
     @Test
     public void givenStatesCode_IfIncorrectReturnsACustomException() {
         try {
-            int fileNotFound = csvStates.readStateCodeFile("./src/test/resources/State.csv");
+            int fileNotFound = analyser.readStateCodeFile("./src/test/resources/State.csv");
             Assert.assertEquals(37,fileNotFound);
         } catch (StateCensusAnalyserException e){
             Assert.assertEquals(StateCensusAnalyserException.ExceptionType.FILE_NOT_FOUND,e.exceptiontype);
@@ -77,7 +77,7 @@ public class StateCensusAnalyserTest {
     @Test
     public void givenStateCode_WhenCorrect_ButTypeIncorrect_ReturnsACustomException() {
         try{
-            int noSuchFile = csvStates.readStateCodeFile("./src/test/resources/StateCode.xls");
+            int noSuchFile = analyser.readStateCodeFile("./src/test/resources/StateCode.xls");
             Assert.assertEquals(37,noSuchFile);
         } catch (StateCensusAnalyserException e){
             Assert.assertEquals(StateCensusAnalyserException.ExceptionType.NO_SUCH_FILE,e.exceptiontype);
@@ -87,7 +87,7 @@ public class StateCensusAnalyserTest {
     @Test
     public void givenStateCode_WhenCorrectButDelimiterIncorrect_ReturnsACustomException() {
         try{
-            int wrongDelimiter = csvStates.readStateCodeFile("./src/test/resources/WrongDelimiterStateCode.csv");
+            int wrongDelimiter = analyser.readStateCodeFile("./src/test/resources/WrongDelimiterStateCode.csv");
             Assert.assertEquals(37,wrongDelimiter);
         } catch (StateCensusAnalyserException e){
             Assert.assertEquals(StateCensusAnalyserException.ExceptionType.WRONG_DELIMITER,e.exceptiontype);
