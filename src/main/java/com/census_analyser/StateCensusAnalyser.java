@@ -20,7 +20,7 @@ public class StateCensusAnalyser {
             throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.NO_SUCH_FILE, "file does not exists");
         try (Reader reader = Files.newBufferedReader(Paths.get(CSV_PATH))
         ) {
-            Iterator<StateCensusData> censusDataIterator = this.getCsvFileIterator(reader, StateCensusData.class);
+            Iterator<StateCensusData> censusDataIterator = new OpenCSVBuilder().getCsvFileIterator(reader, StateCensusData.class);
             return getCount(censusDataIterator);
         }catch (NoSuchFileException e){
             throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.FILE_NOT_FOUND,"file does not exists");
@@ -41,7 +41,7 @@ public class StateCensusAnalyser {
         }
         try(Reader reader = Files.newBufferedReader(Paths.get(CSV_PATH));
         ){
-            Iterator<StateCodeData> stateCodeDataIterator = this.getCsvFileIterator(reader,StateCodeData.class);
+            Iterator<StateCodeData> stateCodeDataIterator = new OpenCSVBuilder().getCsvFileIterator(reader,StateCodeData.class);
             return getCount(stateCodeDataIterator);
         } catch (NoSuchFileException e){
             throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.FILE_NOT_FOUND,"file does not exists");
@@ -57,18 +57,6 @@ public class StateCensusAnalyser {
         Iterable<E> csvIterator = () -> iterator;
         int count= (int) StreamSupport.stream(csvIterator.spliterator(),false).count();
         return count;
-    }
-
-    private <E> Iterator<E> getCsvFileIterator(Reader reader, Class<E> csvClass) throws StateCensusAnalyserException {
-        try {
-            CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder(reader);
-            csvToBeanBuilder.withType(csvClass);
-            csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-            CsvToBean<E> csvToBean = csvToBeanBuilder.build();
-            return csvToBean.iterator();
-        } catch (IllegalStateException e){
-            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.UNABLE_TO_PARSE,"unable to parse csv file");
-        }
     }
 
     public static String getFileExtension(String file) {
