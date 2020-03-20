@@ -8,13 +8,18 @@ import java.io.IOException;
 
 public class StateCensusAnalyserTest {
 
+    private static final String STATE_CENSUS_CSV_PATH = "./src/test/resources/StateCensusData.csv";
+    private static final String WRONG_DELIMITER_STATE_CENSUS_CSV_PATH = "./src/test/resources/WrongDelimiterStateCensusData.csv";
+    private static final String STATE_CODE_CSV_PATH = "./src/test/resources/StateCode.csv";
+    private static final String WRONG_DELIMITER_STATE_CODE_CSV_PATH = "./src/test/resources/WrongDelimiterStateCode.csv";
+
     //Object creation
     StateCensusAnalyser analyser = new StateCensusAnalyser();
     CSVStates csvStates = new CSVStates();
 
     @Test
     public void givenTheStatesCensusCSVFiles_CheckToEnsureTheNumber_OfRecordMatches() throws StateCensusAnalyserException, IOException {
-        int count = analyser.readCSVFile("./src/test/resources/StateCensusData.csv");
+        int count = analyser.readCSVFile(STATE_CENSUS_CSV_PATH);
         Assert.assertEquals(29,count);
     }
 
@@ -41,7 +46,7 @@ public class StateCensusAnalyserTest {
     @Test
     public void givenTheStateCensus_CSVFile_WhenCorrectButDelimiterIncorrect_ReturnsACustomException() throws IOException {
         try{
-            int wrongDelimiter = analyser.readCSVFile("./src/test/resources/WrongDelimiterStateCensusData.csv");
+            int wrongDelimiter = analyser.readCSVFile(WRONG_DELIMITER_STATE_CENSUS_CSV_PATH);
             Assert.assertEquals(29,wrongDelimiter);
         } catch (StateCensusAnalyserException e){
             Assert.assertEquals(StateCensusAnalyserException.ExceptionType.WRONG_DELIMITER,e.exceptiontype);
@@ -51,7 +56,7 @@ public class StateCensusAnalyserTest {
     @Test
     public void givenTheStateCensus_CSVFile_WhenCorrectButCSVHeaderIncorrect_ReturnsACustomException() throws IOException {
         try{
-            int wrongHeader = analyser.readCSVFile("./src/test/resources/WrongDelimiterStateCensusData.csv");
+            int wrongHeader = analyser.readCSVFile(WRONG_DELIMITER_STATE_CENSUS_CSV_PATH);
             Assert.assertEquals(29,wrongHeader);
         } catch (StateCensusAnalyserException e) {
             Assert.assertEquals(StateCensusAnalyserException.ExceptionType.WRONG_DELIMITER,e.exceptiontype);
@@ -60,7 +65,7 @@ public class StateCensusAnalyserTest {
 
     @Test
     public void givenStatesCode_CheckToEnsureTheNumber_OfRecordMatches() throws StateCensusAnalyserException {
-        int numberOfRecords = analyser.readStateCodeFile("./src/test/resources/StateCode.csv");
+        int numberOfRecords = analyser.readStateCodeFile(STATE_CODE_CSV_PATH);
         Assert.assertEquals(37,numberOfRecords);
     }
 
@@ -87,7 +92,7 @@ public class StateCensusAnalyserTest {
     @Test
     public void givenStateCode_WhenCorrectButDelimiterIncorrect_ReturnsACustomException() {
         try{
-            int wrongDelimiter = analyser.readStateCodeFile("./src/test/resources/WrongDelimiterStateCode.csv");
+            int wrongDelimiter = analyser.readStateCodeFile(WRONG_DELIMITER_STATE_CODE_CSV_PATH);
             Assert.assertEquals(37,wrongDelimiter);
         } catch (StateCensusAnalyserException e){
             Assert.assertEquals(StateCensusAnalyserException.ExceptionType.WRONG_DELIMITER,e.exceptiontype);
@@ -97,7 +102,7 @@ public class StateCensusAnalyserTest {
     @Test
     public void givenStateCode_WhenCorrectButCSVHeaderIncorrect_ReturnsACustomException() {
         try{
-            int wrongHeader = csvStates.readStateCodeFile("./src/test/resources/WrongDelimiterStateCode.csv");
+            int wrongHeader = csvStates.readStateCodeFile(WRONG_DELIMITER_STATE_CODE_CSV_PATH);
             Assert.assertEquals(37,wrongHeader);
         } catch (StateCensusAnalyserException e){
             Assert.assertEquals(StateCensusAnalyserException.ExceptionType.WRONG_DELIMITER,e.exceptiontype);
