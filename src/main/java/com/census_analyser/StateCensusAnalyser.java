@@ -17,15 +17,19 @@ public class StateCensusAnalyser {
         int count = 0;
         String fileName = getFileExtension(CSV_PATH);
         if (!fileName.equals(".csv"))
-            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.NO_SUCH_FILE, "file does not exists");
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.NO_SUCH_FILE,
+                    "file does not exists");
         try (Reader reader = Files.newBufferedReader(Paths.get(CSV_PATH))
         ) {
-            Iterator<StateCensusData> censusDataIterator = new OpenCSVBuilder().getCsvFileIterator(reader, StateCensusData.class);
+            ICSVBuilder icsvBuilder = CSVBuilderFactory.createCSVBuilder();
+            Iterator<StateCensusData> censusDataIterator = icsvBuilder.getCsvFileIterator(reader, StateCensusData.class);
             return getCount(censusDataIterator);
         }catch (NoSuchFileException e){
-            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.FILE_NOT_FOUND,"file does not exists");
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.FILE_NOT_FOUND,
+                    "file does not exists");
         } catch (RuntimeException e){
-            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.WRONG_DELIMITER,"wrong delimiter has been added");
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.WRONG_DELIMITER,
+                    "wrong delimiter has been added");
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -41,12 +45,15 @@ public class StateCensusAnalyser {
         }
         try(Reader reader = Files.newBufferedReader(Paths.get(CSV_PATH));
         ){
-            Iterator<StateCodeData> stateCodeDataIterator = new OpenCSVBuilder().getCsvFileIterator(reader,StateCodeData.class);
+            ICSVBuilder icsvBuilder = CSVBuilderFactory.createCSVBuilder();
+            Iterator<StateCodeData> stateCodeDataIterator = icsvBuilder.getCsvFileIterator(reader, StateCodeData.class);
             return getCount(stateCodeDataIterator);
         } catch (NoSuchFileException e){
-            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.FILE_NOT_FOUND,"file does not exists");
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.FILE_NOT_FOUND,
+                    "file does not exists");
         } catch (RuntimeException e){
-            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.WRONG_DELIMITER,"wrong delimiter has been added");
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.WRONG_DELIMITER,
+                    "wrong delimiter has been added");
         } catch (IOException e){
             e.printStackTrace();
         }
