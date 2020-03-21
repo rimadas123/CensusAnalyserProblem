@@ -7,6 +7,11 @@ public class StateCensusAnalyserException extends Throwable {
 
     public ExceptionType exceptiontype;
 
+    public StateCensusAnalyserException(String name,String message) {
+        super(message);
+        this.exceptiontype = ExceptionType.valueOf(name);
+    }
+
     public StateCensusAnalyserException(ExceptionType exceptionType, String message) {
         super(message);
         this.exceptiontype=exceptionType;

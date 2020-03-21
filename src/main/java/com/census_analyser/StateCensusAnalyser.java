@@ -1,8 +1,5 @@
 package com.census_analyser;
 
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -32,6 +29,8 @@ public class StateCensusAnalyser {
                     "wrong delimiter has been added");
         } catch (IOException e){
             e.printStackTrace();
+        } catch (CSVBuilderException e) {
+            throw new StateCensusAnalyserException(e.exceptionType.name(),e.getMessage());
         }
         return count;
     }
@@ -56,6 +55,8 @@ public class StateCensusAnalyser {
                     "wrong delimiter has been added");
         } catch (IOException e){
             e.printStackTrace();
+        } catch (CSVBuilderException e) {
+            throw new StateCensusAnalyserException(e.exceptionType.name(),e.getMessage());
         }
         return count;
     }
