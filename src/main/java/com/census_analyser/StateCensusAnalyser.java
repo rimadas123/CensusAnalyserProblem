@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.List;
 import java.util.stream.StreamSupport;
 
 public class StateCensusAnalyser {
@@ -19,8 +20,8 @@ public class StateCensusAnalyser {
         try (Reader reader = Files.newBufferedReader(Paths.get(CSV_PATH))
         ) {
             ICSVBuilder icsvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<StateCensusData> censusDataIterator = icsvBuilder.getCsvFileIterator(reader, StateCensusData.class);
-            return getCount(censusDataIterator);
+            List<StateCensusData> censusCSVList = icsvBuilder.getCsvFileList(reader, StateCensusData.class);
+            return censusCSVList.size();
         }catch (NoSuchFileException e){
             throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.FILE_NOT_FOUND,
                     "file does not exists");
