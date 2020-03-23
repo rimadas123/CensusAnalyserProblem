@@ -10,16 +10,16 @@ import java.util.List;
 public class OpenCSVBuilder<E> implements ICSVBuilder {
 
     @Override
-    public Iterator <E> getCsvFileIterator(Reader reader, Class csvClass) throws CSVBuilderException {
-            return this.getCSVBean(reader,csvClass).iterator();
+    public <E> Iterator <E> getCsvFileIterator(Reader reader, Class<E> csvClass) throws CSVBuilderException {
+        return this.getCSVBean(reader,csvClass).iterator();
     }
 
     @Override
-    public List getCsvFileList(Reader reader, Class csvClass) throws CSVBuilderException {
+    public <E> List <E> getCsvFileList(Reader reader, Class<E> csvClass) throws CSVBuilderException {
         return this.getCSVBean(reader,csvClass).parse();
     }
 
-    private CsvToBean<E> getCSVBean(Reader reader, Class<E> csvClass) throws CSVBuilderException {
+    private <E> CsvToBean<E> getCSVBean(Reader reader, Class<E> csvClass) throws CSVBuilderException {
         try {
             CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder(reader);
             csvToBeanBuilder.withType(csvClass);
