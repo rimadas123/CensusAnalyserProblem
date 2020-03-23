@@ -114,7 +114,8 @@ public class StateCensusAnalyserTest {
 
     @Test
     public void givenStateCensusData_WhenSortedOnState_ShouldReturnSortedResult() throws StateCensusAnalyserException {
-        String sortedCensusData =analyser.getStateWiseSortedCensusData(STATE_CENSUS_CSV_PATH);
+        analyser.readCSVFile(STATE_CENSUS_CSV_PATH);
+        String sortedCensusData =analyser.getStateWiseSortedCensusData();
         StateCensusData[] stateCensusData = new Gson().fromJson(sortedCensusData, StateCensusData[].class);
         Assert.assertEquals("Andhra Pradesh",stateCensusData[0].state);
     }
