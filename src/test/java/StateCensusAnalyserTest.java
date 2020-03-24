@@ -1,7 +1,4 @@
-import com.census_analyser.CSVStates;
-import com.census_analyser.StateCensusAnalyser;
-import com.census_analyser.StateCensusAnalyserException;
-import com.census_analyser.StateCensusData;
+import com.census_analyser.*;
 import com.google.gson.Gson;
 import org.ietf.jgss.GSSContext;
 import org.junit.Assert;
@@ -118,5 +115,13 @@ public class StateCensusAnalyserTest {
         String sortedCensusData =analyser.getStateWiseSortedCensusData();
         StateCensusData[] stateCensusData = new Gson().fromJson(sortedCensusData, StateCensusData[].class);
         Assert.assertEquals("Andhra Pradesh",stateCensusData[0].state);
+    }
+
+    @Test
+    public void givenStateCodeData_WhenSortedOnState_ShouldReturnSortedResult() throws StateCensusAnalyserException {
+        analyser.readStateCodeFile(STATE_CODE_CSV_PATH);
+        String sortedCensusData = analyser.getStateCodeWiseSortedCensusData();
+        StateCodeData[] stateCodeData = new Gson().fromJson(sortedCensusData,StateCodeData[].class);
+        Assert.assertEquals("AD",stateCodeData[0].StateCode);
     }
 }
