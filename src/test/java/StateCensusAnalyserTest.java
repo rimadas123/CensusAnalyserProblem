@@ -92,6 +92,7 @@ public class StateCensusAnalyserTest {
     @Test
     public void givenStateCode_WhenCorrectButDelimiterIncorrect_ReturnsACustomException() {
         try{
+            analyser.readCSVFile(STATE_CENSUS_CSV_PATH);
             int wrongDelimiter = analyser.readStateCodeFile(WRONG_DELIMITER_STATE_CODE_CSV_PATH);
             Assert.assertEquals(37,wrongDelimiter);
         } catch (StateCensusAnalyserException e){
@@ -119,6 +120,7 @@ public class StateCensusAnalyserTest {
 
     @Test
     public void givenStateCodeData_WhenSortedOnState_ShouldReturnSortedResult() throws StateCensusAnalyserException {
+        analyser.readCSVFile(STATE_CENSUS_CSV_PATH);
         analyser.readStateCodeFile(STATE_CODE_CSV_PATH);
         String sortedCensusData = analyser.getStateCodeWiseSortedCensusData();
         StateCodeData[] stateCodeData = new Gson().fromJson(sortedCensusData,StateCodeData[].class);
