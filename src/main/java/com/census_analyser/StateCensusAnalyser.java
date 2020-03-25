@@ -100,25 +100,25 @@ public class StateCensusAnalyser {
     }
 
     public String getStateWiseSortedCensusData() throws StateCensusAnalyserException {
-            if(censusList == null || censusList.size() == 0 ){
-                throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.NO_DATA,
-                        "no valid data");
-            }
-            Comparator<IndiaCensusDAO> censusDataComparator = Comparator.comparing(census -> census.state);
-            this.sort(censusDataComparator,censusList);
-            String sortedStateCensus = new Gson().toJson(this.censusList);
-            return sortedStateCensus;
+        if(censusList == null || censusList.size() == 0 ){
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.NO_DATA,
+                    "no valid data");
+        }
+        Comparator<IndiaCensusDAO> censusDataComparator = Comparator.comparing(census -> census.state);
+        this.sort(censusDataComparator,censusList);
+        String sortedStateCensus = new Gson().toJson(this.censusList);
+        return sortedStateCensus;
     }
 
     public String getStateCodeWiseSortedCensusData() throws StateCensusAnalyserException {
-            if(codeDAOList == null || codeDAOList.size() == 0){
-                throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.NO_DATA,
-                        "no valid data");
-            }
-            Comparator<StateCodeDAO> stateCodeDAOComparator = Comparator.comparing(census -> census.StateCode);
-            this.sort(stateCodeDAOComparator, codeDAOList);
-            String sortedStateCode = new Gson().toJson(this.codeDAOList);
-            return sortedStateCode;
+        if(codeDAOList == null || codeDAOList.size() == 0){
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.NO_DATA,
+                    "no valid data");
+        }
+        Comparator<StateCodeDAO> stateCodeDAOComparator = Comparator.comparing(census -> census.stateCode);
+        this.sort(stateCodeDAOComparator, codeDAOList);
+        String sortedStateCode = new Gson().toJson(this.codeDAOList);
+        return sortedStateCode;
     }
 
     private <E> void sort(Comparator<E> censusDataComparator,List list) {
