@@ -8,7 +8,7 @@ public class StateCensusData {
     public String state;
 
     @CsvBindByName
-    public int Population;
+    public String Population;
 
     @CsvBindByName
     public int AreaInSqKm;

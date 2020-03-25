@@ -6,6 +6,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import java.io.Reader;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class OpenCSVBuilder<E> implements ICSVBuilder {
 
