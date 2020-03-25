@@ -124,4 +124,5 @@ public class StateCensusAnalyserTest {
         StateCodeData[] stateCodeData = new Gson().fromJson(sortedCensusData,StateCodeData[].class);
         Assert.assertEquals("AD",stateCodeData[0].StateCode);
     }
+
 }
