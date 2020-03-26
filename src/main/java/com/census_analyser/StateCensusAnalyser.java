@@ -19,7 +19,7 @@ public class StateCensusAnalyser {
     Map<String, StateCodeData> stateCodeMap = null;
 
     public StateCensusAnalyser() {
-        this.stateCensusMap = new HashMap<String, StateCensusDAO>();
+        this.stateCensusMap = new HashMap<>();
         this.stateCodeMap = new HashMap<>();
     }
 
@@ -166,6 +166,18 @@ public class StateCensusAnalyser {
                     "no valid data");
         }
         Comparator<StateCensusDAO> censusDataComparator = Comparator.comparing(census -> census.densityPerSqKm);
+        this.sort(censusDataComparator,censusList);
+        Collections.reverse(censusList);
+        String sortedStateCensus = new Gson().toJson(this.censusList);
+        return sortedStateCensus;
+    }
+
+    public String getStateLargestAreaWiseSortedCensusData() throws StateCensusAnalyserException {
+        if(censusList == null || censusList.size() == 0 ){
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.NO_DATA,
+                    "no valid data");
+        }
+        Comparator<StateCensusDAO> censusDataComparator = Comparator.comparing(census -> census.areaInSqKm);
         this.sort(censusDataComparator,censusList);
         Collections.reverse(censusList);
         String sortedStateCensus = new Gson().toJson(this.censusList);
