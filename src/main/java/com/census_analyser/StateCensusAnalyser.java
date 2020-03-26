@@ -56,8 +56,9 @@ public class StateCensusAnalyser {
 
     public int readStateCodeFile(String CSV_PATH) throws StateCensusAnalyserException {
 
-        if(this.stateCensusMap==null|| this.stateCensusMap.size()==0){
-            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.File_Empty,"please load census map");
+        if(this.stateCensusMap==null || this.stateCensusMap.size()==0){
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.File_Empty,
+                    "please load census map");
         }
         int count = 0;
         String fileName = getFileExtension(CSV_PATH);
@@ -65,7 +66,7 @@ public class StateCensusAnalyser {
             throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.NO_SUCH_FILE,
                     "wrong file type");
         }
-        try(Reader reader = Files.newBufferedReader(Paths.get(CSV_PATH));
+        try(Reader reader = Files.newBufferedReader(Paths.get(CSV_PATH))
         ){
             ICSVBuilder icsvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<StateCodeData> stateCodeDataIterator = icsvBuilder.getCsvFileIterator(reader, StateCodeData.class);
@@ -145,5 +146,17 @@ public class StateCensusAnalyser {
                 }
             }
         }
+    }
+
+    public String getStatePopulatedWiseSortedCensusData() throws StateCensusAnalyserException {
+        if(censusList == null || censusList.size() == 0 ){
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.NO_DATA,
+                    "no valid data");
+        }
+        Comparator<StateCensusDAO> censusDataComparator = Comparator.comparing(census -> census.population);
+        this.sort(censusDataComparator,censusList);
+        Collections.reverse(censusList);
+        String  sortedStateCensus = new Gson().toJson(this.censusList);
+        return sortedStateCensus;
     }
 }
