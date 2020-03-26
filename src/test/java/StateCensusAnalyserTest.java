@@ -127,4 +127,11 @@ public class StateCensusAnalyserTest {
         Assert.assertEquals("AD",stateCodeData[0].StateCode);
     }
 
+    @Test
+    public void givenStateCodeData_WhenSortedOnMostPopulatedState_ShouldReturnSortedResult() throws StateCensusAnalyserException {
+        analyser.readCSVFile(STATE_CENSUS_CSV_PATH);
+        String sortedStateData = analyser.getStatePopulatedWiseSortedCensusData();
+        StateCensusDAO[] stateCensusData = new Gson().fromJson(sortedStateData,StateCensusDAO[].class);
+        Assert.assertEquals(199812341,stateCensusData[0].population);
+    }
 }
