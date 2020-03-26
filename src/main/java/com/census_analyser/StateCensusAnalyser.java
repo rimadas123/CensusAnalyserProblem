@@ -159,4 +159,16 @@ public class StateCensusAnalyser {
         String  sortedStateCensus = new Gson().toJson(this.censusList);
         return sortedStateCensus;
     }
+
+    public String getStatePopulationDensityWiseSortedCensusData() throws StateCensusAnalyserException {
+        if(censusList == null || censusList.size() == 0 ){
+            throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.NO_DATA,
+                    "no valid data");
+        }
+        Comparator<StateCensusDAO> censusDataComparator = Comparator.comparing(census -> census.densityPerSqKm);
+        this.sort(censusDataComparator,censusList);
+        Collections.reverse(censusList);
+        String sortedStateCensus = new Gson().toJson(this.censusList);
+        return sortedStateCensus;
+    }
 }
