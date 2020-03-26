@@ -1,6 +1,5 @@
 import com.census_analyser.*;
 import com.google.gson.Gson;
-import org.ietf.jgss.GSSContext;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -133,5 +132,13 @@ public class StateCensusAnalyserTest {
         String sortedStateData = analyser.getStatePopulatedWiseSortedCensusData();
         StateCensusDAO[] stateCensusData = new Gson().fromJson(sortedStateData,StateCensusDAO[].class);
         Assert.assertEquals(199812341,stateCensusData[0].population);
+    }
+
+    @Test
+    public void givenStateCensusData_WhenSortedOnMostPopulateDensityState_ShouldReturnSortedResult() throws StateCensusAnalyserException {
+        analyser.readCSVFile(STATE_CENSUS_CSV_PATH);
+        String sortedStateData = analyser.getStatePopulationDensityWiseSortedCensusData();
+        StateCensusDAO[] stateCensusDAOS = new Gson().fromJson(sortedStateData,StateCensusDAO[].class);
+        Assert.assertEquals(1102,stateCensusDAOS[0].densityPerSqKm);
     }
 }
