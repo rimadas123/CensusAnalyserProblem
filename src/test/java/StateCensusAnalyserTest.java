@@ -141,4 +141,12 @@ public class StateCensusAnalyserTest {
         StateCensusDAO[] stateCensusDAOS = new Gson().fromJson(sortedStateData,StateCensusDAO[].class);
         Assert.assertEquals(1102,stateCensusDAOS[0].densityPerSqKm);
     }
+
+    @Test
+    public void givenStateCensusData_WhenSortedOnLargestArea_ShouldReturnSortedResult() throws StateCensusAnalyserException{
+        analyser.readCSVFile(STATE_CENSUS_CSV_PATH);
+        String sortedStateData = analyser.getStateLargestAreaWiseSortedCensusData();
+        StateCensusDAO[] stateCensusDAOS = new Gson().fromJson(sortedStateData,StateCensusDAO[].class);
+        Assert.assertEquals(342239,stateCensusDAOS[0].areaInSqKm);
+    }
 }
