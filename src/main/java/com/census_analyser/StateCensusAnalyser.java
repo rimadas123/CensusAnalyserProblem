@@ -70,17 +70,11 @@ public class StateCensusAnalyser {
         ){
             ICSVBuilder icsvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<StateCodeData> stateCodeDataIterator = icsvBuilder.getCsvFileIterator(reader, StateCodeData.class);
-            while(stateCodeDataIterator.hasNext()){
-                StateCodeData stateCensus = stateCodeDataIterator.next();
-                this.stateCodeMap.put(stateCensus.StateCode,stateCensus);
-                codeList = stateCodeMap.values().stream().collect(Collectors.toList());
-                if(this.stateCensusMap.get(stateCensus.StateName)!=null) {
-                    StateCensusDAO data = this.stateCensusMap.get(stateCensus.StateName);
-                    data.stateCode = stateCensus.StateCode;
-                    this.stateCensusMap.put(stateCensus.StateName, data);
-                }
-            }
-            return this.codeList.size();
+            Iterable<StateCodeData> csvIterable = () -> stateCodeDataIterator;
+            StreamSupport.stream(csvIterable.spliterator(),false)
+                    .filter(csvState -> stateCensusMap.get(csvState.StateName) != null)
+                    .forEach(csvState -> stateCensusMap.get(csvState.StateName).stateCode = csvState.StateCode);
+            return stateCensusMap.size();
         } catch (NoSuchFileException e){
             throw new StateCensusAnalyserException(StateCensusAnalyserException.ExceptionType.FILE_NOT_FOUND,
                     "file does not exists");
@@ -95,11 +89,11 @@ public class StateCensusAnalyser {
         return count;
     }
 
-    private <E> int getCount(Iterator<E> iterator){
-        Iterable<E> csvIterator = () -> iterator;
-        int count= (int) StreamSupport.stream(csvIterator.spliterator(),false).count();
-        return count;
-    }
+//    private <E> int getCount(Iterator<E> iterator){
+//        Iterable<E> csvIterator = () -> iterator;
+//        int count= (int) StreamSupport.stream(csvIterator.spliterator(),false).count();
+//        return count;
+//    }
 
     public static String getFileExtension(String file) {
         String fileName = "";
