@@ -17,7 +17,7 @@ public class StateCensusAnalyserTest {
     CSVStates csvStates = new CSVStates();
 
     @Test
-    public void givenTheStatesCensusCSVFiles_CheckToEnsureTheNumber_OfRecordMatches() throws StateCensusAnalyserException, IOException {
+    public void givenTheStatesCensusCSVFiles_CheckToEnsureTheNumber_OfRecordMatches() throws StateCensusAnalyserException{
         int count = analyser.readCSVFile(STATE_CENSUS_CSV_PATH);
         Assert.assertEquals(29,count);
     }
@@ -33,7 +33,7 @@ public class StateCensusAnalyserTest {
     }
 
     @Test
-    public void givenTheStateCensus_CSVFileWhenCorrect_ButTypeIncorrect_ReturnsACustomException() throws IOException {
+    public void givenTheStateCensus_CSVFileWhenCorrect_ButTypeIncorrect_ReturnsACustomException() {
         try {
             int fileType = analyser.readCSVFile("./src/test/resources/StateCensusData.pdf");
             Assert.assertEquals(29, fileType);
@@ -43,7 +43,7 @@ public class StateCensusAnalyserTest {
     }
 
     @Test
-    public void givenTheStateCensus_CSVFile_WhenCorrectButDelimiterIncorrect_ReturnsACustomException() throws IOException {
+    public void givenTheStateCensus_CSVFile_WhenCorrectButDelimiterIncorrect_ReturnsACustomException() {
         try{
             int wrongDelimiter = analyser.readCSVFile(WRONG_DELIMITER_STATE_CENSUS_CSV_PATH);
             Assert.assertEquals(29,wrongDelimiter);
@@ -53,7 +53,7 @@ public class StateCensusAnalyserTest {
     }
 
     @Test
-    public void givenTheStateCensus_CSVFile_WhenCorrectButCSVHeaderIncorrect_ReturnsACustomException() throws IOException {
+    public void givenTheStateCensus_CSVFile_WhenCorrectButCSVHeaderIncorrect_ReturnsACustomException() {
         try{
             int wrongHeader = analyser.readCSVFile(WRONG_DELIMITER_STATE_CENSUS_CSV_PATH);
             Assert.assertEquals(29,wrongHeader);
@@ -64,8 +64,9 @@ public class StateCensusAnalyserTest {
 
     @Test
     public void givenStatesCode_CheckToEnsureTheNumber_OfRecordMatches() throws StateCensusAnalyserException {
+        analyser.readCSVFile(STATE_CENSUS_CSV_PATH);
         int numberOfRecords = analyser.readStateCodeFile(STATE_CODE_CSV_PATH);
-        Assert.assertEquals(37,numberOfRecords);
+        Assert.assertEquals(29,numberOfRecords);
     }
 
     @Test
