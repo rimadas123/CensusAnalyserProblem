@@ -11,6 +11,7 @@ public class StateCensusAnalyserTest {
     private static final String WRONG_DELIMITER_STATE_CENSUS_CSV_PATH = "./src/test/resources/WrongDelimiterStateCensusData.csv";
     private static final String STATE_CODE_CSV_PATH = "./src/test/resources/StateCode.csv";
     private static final String WRONG_DELIMITER_STATE_CODE_CSV_PATH = "./src/test/resources/WrongDelimiterStateCode.csv";
+    private static final String US_CENSUS_CSV_PATH = "./src/test/resources/USCensusData.csv";
 
     //Object creation
     StateCensusAnalyser analyser = new StateCensusAnalyser();
@@ -103,6 +104,7 @@ public class StateCensusAnalyserTest {
     @Test
     public void givenStateCode_WhenCorrectButCSVHeaderIncorrect_ReturnsACustomException() {
         try{
+            analyser.readCSVFile(STATE_CENSUS_CSV_PATH);
             int wrongHeader = analyser.readStateCodeFile(WRONG_DELIMITER_STATE_CODE_CSV_PATH);
             Assert.assertEquals(37,wrongHeader);
         } catch (StateCensusAnalyserException e){
@@ -123,8 +125,8 @@ public class StateCensusAnalyserTest {
         analyser.readCSVFile(STATE_CENSUS_CSV_PATH);
         analyser.readStateCodeFile(STATE_CODE_CSV_PATH);
         String sortedCensusData = analyser.getStateCodeWiseSortedCensusData();
-        StateCodeData[] stateCodeData = new Gson().fromJson(sortedCensusData,StateCodeData[].class);
-        Assert.assertEquals("AD",stateCodeData[0].StateCode);
+        StateCensusDAO[] stateCodeData = new Gson().fromJson(sortedCensusData,StateCensusDAO[].class);
+        Assert.assertEquals("AD",stateCodeData[0].stateCode);
     }
 
     @Test
@@ -149,5 +151,11 @@ public class StateCensusAnalyserTest {
         String sortedStateData = analyser.getStateLargestAreaWiseSortedCensusData();
         StateCensusDAO[] stateCensusDAOS = new Gson().fromJson(sortedStateData,StateCensusDAO[].class);
         Assert.assertEquals(342239,stateCensusDAOS[0].areaInSqKm);
+    }
+
+    @Test
+    public void givenUSCensusData_CheckToEnsure_NumberOfRecords() throws StateCensusAnalyserException {
+        int numberOfRecords= analyser.loadUSCensusData(US_CENSUS_CSV_PATH);
+        Assert.assertEquals(51,numberOfRecords);
     }
 }
