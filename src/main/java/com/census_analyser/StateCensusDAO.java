@@ -13,4 +13,5 @@ public class StateCensusDAO {
         areaInSqKm = stateCensusData.AreaInSqKm;
         densityPerSqKm = stateCensusData.DensityPerSqKm;
     }
+
 }
