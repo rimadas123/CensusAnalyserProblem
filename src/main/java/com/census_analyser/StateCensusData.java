@@ -8,12 +8,12 @@ public class StateCensusData {
     public String state;
 
     @CsvBindByName
-    public int Population;
+    public int population;
 
     @CsvBindByName
-    public int AreaInSqKm;
+    public int areaInSqKm;
 
     @CsvBindByName
-    public int DensityPerSqKm;
+    public int densityPerSqKm;
 
 }
