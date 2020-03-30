@@ -73,6 +73,7 @@ public class StateCensusAnalyserTest {
     @Test
     public void givenStatesCode_IfIncorrectReturnsACustomException() {
         try {
+            analyser.readCSVFile(STATE_CENSUS_CSV_PATH);
             int fileNotFound = analyser.readStateCodeFile("./src/test/resources/State.csv");
             Assert.assertEquals(37,fileNotFound);
         } catch (StateCensusAnalyserException e){
@@ -83,6 +84,7 @@ public class StateCensusAnalyserTest {
     @Test
     public void givenStateCode_WhenCorrect_ButTypeIncorrect_ReturnsACustomException() {
         try{
+            analyser.readCSVFile(STATE_CENSUS_CSV_PATH);
             int noSuchFile = analyser.readStateCodeFile("./src/test/resources/StateCode.xls");
             Assert.assertEquals(37,noSuchFile);
         } catch (StateCensusAnalyserException e){
@@ -125,7 +127,7 @@ public class StateCensusAnalyserTest {
         analyser.readCSVFile(STATE_CENSUS_CSV_PATH);
         analyser.readStateCodeFile(STATE_CODE_CSV_PATH);
         String sortedCensusData = analyser.getStateCodeWiseSortedCensusData();
-        StateCensusDAO[] stateCodeData = new Gson().fromJson(sortedCensusData,StateCensusDAO[].class);
+        CensusDAO[] stateCodeData = new Gson().fromJson(sortedCensusData,CensusDAO[].class);
         Assert.assertEquals("AD",stateCodeData[0].stateCode);
     }
 
@@ -133,7 +135,7 @@ public class StateCensusAnalyserTest {
     public void givenStateCodeData_WhenSortedOnMostPopulatedState_ShouldReturnSortedResult() throws StateCensusAnalyserException {
         analyser.readCSVFile(STATE_CENSUS_CSV_PATH);
         String sortedStateData = analyser.getStatePopulatedWiseSortedCensusData();
-        StateCensusDAO[] stateCensusData = new Gson().fromJson(sortedStateData,StateCensusDAO[].class);
+        CensusDAO[] stateCensusData = new Gson().fromJson(sortedStateData,CensusDAO[].class);
         Assert.assertEquals(199812341,stateCensusData[0].population);
     }
 
@@ -141,7 +143,7 @@ public class StateCensusAnalyserTest {
     public void givenStateCensusData_WhenSortedOnMostPopulateDensityState_ShouldReturnSortedResult() throws StateCensusAnalyserException {
         analyser.readCSVFile(STATE_CENSUS_CSV_PATH);
         String sortedStateData = analyser.getStatePopulationDensityWiseSortedCensusData();
-        StateCensusDAO[] stateCensusDAOS = new Gson().fromJson(sortedStateData,StateCensusDAO[].class);
+        CensusDAO[] stateCensusDAOS = new Gson().fromJson(sortedStateData,CensusDAO[].class);
         Assert.assertEquals(1102,stateCensusDAOS[0].densityPerSqKm);
     }
 
@@ -149,7 +151,7 @@ public class StateCensusAnalyserTest {
     public void givenStateCensusData_WhenSortedOnLargestArea_ShouldReturnSortedResult() throws StateCensusAnalyserException{
         analyser.readCSVFile(STATE_CENSUS_CSV_PATH);
         String sortedStateData = analyser.getStateLargestAreaWiseSortedCensusData();
-        StateCensusDAO[] stateCensusDAOS = new Gson().fromJson(sortedStateData,StateCensusDAO[].class);
+        CensusDAO[] stateCensusDAOS = new Gson().fromJson(sortedStateData,CensusDAO[].class);
         Assert.assertEquals(342239,stateCensusDAOS[0].areaInSqKm);
     }
 
