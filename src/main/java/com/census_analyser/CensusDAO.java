@@ -27,7 +27,7 @@ public class CensusDAO {
     }
 
     public CensusDAO(USCensusData censusCSV) {
-        this.state = censusCSV.state;
+        this.state = censusCSV.State;
         this.stateCode = censusCSV.StateId;
         this.population = censusCSV.population;
         this.PopulationDensity = censusCSV.PopulationDensity;

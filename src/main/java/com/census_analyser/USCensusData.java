@@ -8,7 +8,7 @@ public class USCensusData {
     public String StateId;
 
     @CsvBindByName(column ="State",required = true)
-    public String state;
+    public String State;
 
     @CsvBindByName(column ="Population",required = true)
     public int population;

@@ -24,7 +24,7 @@ public class StateCensusAnalyser {
     }
 
     public int readCSVFile(String CSV_PATH) throws StateCensusAnalyserException {
-        return loadCensusData(CSV_PATH,StateCensusData.class);
+        return this.loadCensusData(CSV_PATH,StateCensusData.class);
     }
 
     private <E> int loadCensusData(String csvFilePath, Class<E> censusCSVClass) throws StateCensusAnalyserException{
@@ -43,10 +43,10 @@ public class StateCensusAnalyser {
                     .forEach(censusCSV -> stateCensusDAOMap.put(censusCSV.state, new CensusDAO(censusCSV)));
                     return stateCensusDAOMap.size();
                 }
-                if(censusCSVClass.getName().contains("USCensusData")) {
+                else if(censusCSVClass.getName().contains("USCensusData")) {
                     StreamSupport.stream(csvFileIterable.spliterator(), false)
-                    .map(StateCensusData.class::cast)
-                    .forEach(censusCSV -> stateCensusDAOMap.put(censusCSV.state, new CensusDAO(censusCSV)));
+                    .map(USCensusData.class::cast)
+                    .forEach(censusCSV -> stateCensusDAOMap.put(censusCSV.State, new CensusDAO(censusCSV)));
                     return stateCensusDAOMap.size();
                 }
 
