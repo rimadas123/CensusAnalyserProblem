@@ -160,4 +160,12 @@ public class StateCensusAnalyserTest {
         int numberOfRecords= analyser.loadUSCensusData(US_CENSUS_CSV_PATH);
         Assert.assertEquals(51,numberOfRecords);
     }
+
+    @Test
+    public void givenUSCensusData_WhenSortedOnMostPopulousState_ShouldReturnSortedResult() throws StateCensusAnalyserException {
+        analyser.loadUSCensusData(US_CENSUS_CSV_PATH);
+        String sortedUSStateData = analyser.getStatePopulatedWiseSortedCensusData();
+        CensusDAO[] censusDAOS = new Gson().fromJson(sortedUSStateData,CensusDAO[].class);
+        Assert.assertEquals(37253956,censusDAOS[0].population);
+    }
 }
