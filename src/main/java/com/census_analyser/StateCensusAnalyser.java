@@ -27,7 +27,7 @@ public class StateCensusAnalyser {
     }
 
     public int loadCensusData(COUNTRY country,String... CSV_PATH) throws StateCensusAnalyserException {
-        stateCensusDAOMap = new CensusLoader().loadCensusData(country,CSV_PATH);
+        stateCensusDAOMap = new CensusAnalyserFactory().getCensusData(country,CSV_PATH);
          return stateCensusDAOMap.size();
     }
 
