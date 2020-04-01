@@ -28,10 +28,10 @@ public class CSVStates {
             while (censusDataIterator.hasNext()){
                 count++;
                 StateCodeData csvData = censusDataIterator.next();
-                System.out.println("Sr no : " +csvData.SrNo);
-                System.out.println("State Name : "+csvData.StateName);
-                System.out.println("TIN : "+csvData.TIN);
-                System.out.println("State Code : "+csvData.StateCode);
+                System.out.println("Sr no : " +csvData.getSrNo());
+                System.out.println("State Name : "+csvData.getStateName());
+                System.out.println("TIN : "+csvData.getTIN());
+                System.out.println("State Code : "+csvData.getStateCode());
                 System.out.println("===============");
             }
         } catch (NoSuchFileException e){

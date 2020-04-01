@@ -20,18 +20,18 @@ public class CensusDAO {
     }
 
     public CensusDAO(StateCodeData stateCodeData){
-        this.srNo = stateCodeData.SrNo;
-        this.state = stateCodeData.StateName;
-        this.tin = stateCodeData.TIN;
-        this.stateCode = stateCodeData.StateCode;
+        this.srNo = stateCodeData.getSrNo();
+        this.state = stateCodeData.getStateName();
+        this.tin = stateCodeData.getTIN();
+        this.stateCode = stateCodeData.getStateCode();
     }
 
     public CensusDAO(USCensusData censusCSV) {
-        this.state = censusCSV.State;
-        this.stateCode = censusCSV.StateId;
-        this.population = censusCSV.population;
-        this.PopulationDensity = censusCSV.PopulationDensity;
-        this.TotalArea = censusCSV.TotalArea;
+        this.state = censusCSV.getState();
+        this.stateCode = censusCSV.getStateId();
+        this.population = censusCSV.getPopulation();
+        this.PopulationDensity = censusCSV.getPopulationDensity();
+        this.TotalArea = censusCSV.getTotalArea();
     }
 
 }
