@@ -165,4 +165,21 @@ public class StateCensusAnalyserTest {
         CensusDAO[] censusDAOS = new Gson().fromJson(sortedUSStateData,CensusDAO[].class);
         Assert.assertEquals(37253956,censusDAOS[0].population);
     }
+
+    @Test
+    public void givenUSAndIndiaStateCensusData_WhenSortedPopulationAndDensity_ShouldReturnSortedList_2() throws StateCensusAnalyserException {
+        try {
+            StateCensusAnalyser usCensusAnalyserProblem = new StateCensusAnalyser(StateCensusAnalyser.COUNTRY.US);
+            usCensusAnalyserProblem.loadCensusData(StateCensusAnalyser.COUNTRY.US,US_CENSUS_CSV_PATH);
+            String sortedUSCensusData = usCensusAnalyserProblem.getSortCensusData(StateCensusAnalyser.SORTING_MODE.POPULATION);
+            CensusDAO[] UScensusCSV = new Gson().fromJson(sortedUSCensusData, CensusDAO[].class);
+            StateCensusAnalyser censusAnalyserProblem = new StateCensusAnalyser(StateCensusAnalyser.COUNTRY.INDIA);
+            censusAnalyserProblem.loadCensusData(StateCensusAnalyser.COUNTRY.INDIA,STATE_CENSUS_CSV_PATH);
+            String sortedCensusData = censusAnalyserProblem.getSortCensusData(StateCensusAnalyser.SORTING_MODE.POPULATION);
+            CensusDAO[] censusCSV = new Gson().fromJson(sortedCensusData, CensusDAO[].class);
+            Assert.assertEquals(true, (String.valueOf(censusCSV[0].densityPerSqKm)).compareToIgnoreCase(String.valueOf(UScensusCSV[0].densityPerSqKm)) < 0);
+        } catch (StateCensusAnalyserException e) {
+            e.printStackTrace();
+        }
+    }
 }
