@@ -18,7 +18,7 @@ public abstract class CensusAdapter {
 
     public abstract Map<String, CensusDAO> loadCensusData(String... csv_path) throws StateCensusAnalyserException;
 
-    private <E> Map<String, CensusDAO> loadCensusData(Class<E> censusCSVClass, String... csvFilePath) throws StateCensusAnalyserException{
+    public <E> Map<String, CensusDAO> loadCensusData(Class<E> censusCSVClass, String... csvFilePath) throws StateCensusAnalyserException{
         Map<String, CensusDAO> censusDAOMap = new HashMap<>();
         String extension=getFileExtension(csvFilePath[0]);
         if(!Pattern.matches(PATTERN_FOR_CSV,extension))

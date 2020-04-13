@@ -6,8 +6,9 @@ public class StateCensusData {
 
     public StateCensusData(){}
 
-    public StateCensusData(String state, int population, int areaInSqKm, int densityPerSqKm){
+    public StateCensusData(String state, String stateCode, int population, int areaInSqKm, int densityPerSqKm){
         this.state = state;
+        this.stateCode = stateCode;
         this.population = population;
         this.areaInSqKm = areaInSqKm;
         this.densityPerSqKm = densityPerSqKm;
@@ -58,5 +59,7 @@ public class StateCensusData {
 
     @CsvBindByName(column = "DensityPerSqKm", required = true)
     public int densityPerSqKm;
+
+    private String stateCode = new StateCodeData().getStateCode();
 
 }

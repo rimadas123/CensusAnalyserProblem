@@ -5,20 +5,17 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.regex.Pattern;
 import java.util.stream.StreamSupport;
 
-import static com.census_analyser.StateCensusAnalyser.PATTERN_FOR_CSV;
 import static com.census_analyser.StateCensusAnalyser.getFileExtension;
 
 public class IndiaCensusAdapter extends CensusAdapter {
 
     @Override
     public Map<String, CensusDAO> loadCensusData(String... csvPath) throws StateCensusAnalyserException{
-        Map<String, CensusDAO> censusMap = super.loadCensusData(USCensusData.class, csvPath[0]);
+        Map<String, CensusDAO> censusMap = super.loadCensusData(StateCensusData.class, csvPath[0]);
         if( csvPath.length == 1)
             return censusMap;
         return this.loadStateCodeCensusData(censusMap, csvPath[1]);
@@ -56,6 +53,6 @@ public class IndiaCensusAdapter extends CensusAdapter {
         } catch (CSVBuilderException e) {
             throw new StateCensusAnalyserException(e.exceptionType.name(), e.getMessage());
         }
-        return censusMap;
+        return null;
     }
 }

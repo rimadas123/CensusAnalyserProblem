@@ -1,5 +1,7 @@
 package com.census_analyser;
 
+import java.util.Comparator;
+
 public class CensusDAO {
     public double TotalArea;
     public double PopulationDensity;
@@ -34,4 +36,23 @@ public class CensusDAO {
         this.TotalArea = censusCSV.getTotalArea();
     }
 
+    public static Comparator<CensusDAO> getSortComparator(StateCensusAnalyser.SORTING_MODE mode) {
+        if (mode.equals(StateCensusAnalyser.SORTING_MODE.STATE))
+            return Comparator.comparing(census -> census.state);
+        if (mode.equals(StateCensusAnalyser.SORTING_MODE.POPULATION))
+            return Comparator.comparing(census -> census.population);
+        if (mode.equals(StateCensusAnalyser.SORTING_MODE.DENSITY))
+            return Comparator.comparing(census -> census.densityPerSqKm);
+        if (mode.equals(StateCensusAnalyser.SORTING_MODE.AREA))
+            return Comparator.comparing(census -> census.areaInSqKm);
+        if (mode.equals(StateCensusAnalyser.SORTING_MODE.STATECODE))
+            return Comparator.comparing(census -> census.stateCode);
+        return null;
+    }
+
+    public Object getCensusDTO(StateCensusAnalyser.COUNTRY country) {
+        if (country.equals(StateCensusAnalyser.COUNTRY.INDIA))
+            return new StateCensusData(state, stateCode, population, areaInSqKm, densityPerSqKm);
+        return new USCensusData(stateCode, state, population, areaInSqKm, population);
+    }
 }
